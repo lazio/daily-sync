@@ -1,10 +1,11 @@
-var CACHE_VERSION = 'ds-v1';
+var CACHE_VERSION = 'ds-v3';
 var CACHE_FILES = [
   '/',
   '/index.html',
   '/style.css',
   '/app.js',
   '/manifest.json',
+  '/favicon.png',
   '/icon-192.png',
   '/icon-512.png'
 ];
