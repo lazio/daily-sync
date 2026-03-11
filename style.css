@@ -1,0 +1,710 @@
+/* === CSS Variables === */
+:root {
+  --bg: #F5F0E8;
+  --bg-card: #FFFDF7;
+  --text: #3B2F24;
+  --text-light: #7A6B5D;
+  --text-muted: #A89A8C;
+  --accent: #5C4A3A;
+  --accent-light: #8B7355;
+  --border: #E0D8CC;
+  --score-bg: #EDE7DC;
+  --score-selected: #5C4A3A;
+  --score-text: #5C4A3A;
+  --score-text-selected: #FFFDF7;
+  --nav-active: #5C4A3A;
+  --nav-inactive: #A89A8C;
+  --divider: #E0D8CC;
+  --shadow: rgba(60, 48, 36, 0.08);
+  --font-display: 'Georgia', 'Times New Roman', serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+/* === Reset === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Base === */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Header === */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  padding: 12px 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.date-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding-bottom: 12px;
+}
+
+.date-nav button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.date-nav button:active {
+  background: var(--score-bg);
+}
+
+.date-label {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--text);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  position: relative;
+}
+
+.date-label input[type="date"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+/* === Tab Nav === */
+.tab-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.tab-nav button {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 10px 0;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--nav-inactive);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+
+.tab-nav button.active {
+  color: var(--nav-active);
+  border-bottom-color: var(--nav-active);
+}
+
+.tab-nav .settings-btn {
+  flex: 0;
+  padding: 10px 12px;
+  font-size: 18px;
+}
+
+/* === Main Content === */
+.main {
+  padding: 16px;
+  padding-bottom: 32px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* === Category === */
+.category {
+  margin-bottom: 24px;
+}
+
+.category-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--divider);
+}
+
+/* === Question Card === */
+.question-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px var(--shadow);
+}
+
+.question-text {
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.question-card.weekly {
+  border-left: 3px solid var(--accent-light);
+}
+
+.weekly-badge {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+/* === Score Buttons === */
+.score-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.score-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--score-bg);
+  background: var(--score-bg);
+  color: var(--score-text);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.score-btn:active {
+  transform: scale(0.93);
+}
+
+.score-btn.selected {
+  background: var(--score-selected);
+  border-color: var(--score-selected);
+  color: var(--score-text-selected);
+}
+
+/* === Hours Input === */
+.hours-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hours-input {
+  width: 80px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--text);
+  background: var(--bg);
+  text-align: center;
+  -webkit-appearance: none;
+}
+
+.hours-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.hours-label {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+/* === Weekly Toggle === */
+.weekly-toggle {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.weekly-toggle button {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-light);
+  cursor: pointer;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.weekly-toggle button:active {
+  background: var(--score-bg);
+}
+
+/* === Weekly questions hidden state === */
+.question-card.weekly.hidden {
+  display: none;
+}
+
+/* === Footer === */
+.footer {
+  text-align: center;
+  padding: 24px 0 16px;
+}
+
+.footer button {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 24px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-light);
+  cursor: pointer;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.footer button:active {
+  background: var(--score-bg);
+}
+
+/* === View visibility === */
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+}
+
+/* === History View === */
+.history-week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.history-week-nav button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.history-week-label {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--text);
+}
+
+.history-section-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--divider);
+}
+
+.daily-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.daily-cell {
+  flex: 1;
+  text-align: center;
+}
+
+.daily-cell-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.daily-cell-score {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+}
+
+.daily-cell-score.has-score {
+  background: var(--bg-card);
+  box-shadow: 0 1px 3px var(--shadow);
+}
+
+.daily-cell-score.empty {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.cat-bar {
+  margin-bottom: 12px;
+}
+
+.cat-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.cat-bar-name {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.cat-bar-value {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cat-bar-track {
+  height: 8px;
+  background: var(--score-bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cat-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.history-empty {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* === Settings View === */
+.settings-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 0 0 16px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-category {
+  margin-bottom: 24px;
+}
+
+.settings-cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--divider);
+}
+
+.settings-cat-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.settings-q-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px var(--shadow);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.settings-q-handle {
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: grab;
+  padding: 2px 0;
+  flex-shrink: 0;
+  min-width: 20px;
+  text-align: center;
+}
+
+.settings-q-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.settings-q-text {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.settings-q-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.settings-q-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.settings-q-actions button {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 6px;
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-q-actions button:active {
+  background: var(--score-bg);
+}
+
+.settings-add-btn {
+  background: none;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-add-btn:active {
+  background: var(--score-bg);
+}
+
+/* Edit question form */
+.edit-form {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px var(--shadow);
+  border: 1.5px solid var(--accent);
+}
+
+.edit-form label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+  margin-top: 12px;
+}
+
+.edit-form label:first-child {
+  margin-top: 0;
+}
+
+.edit-form input[type="text"],
+.edit-form select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-appearance: none;
+}
+
+.edit-form input[type="text"]:focus,
+.edit-form select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.edit-form-radios {
+  display: flex;
+  gap: 16px;
+  padding: 6px 0;
+}
+
+.edit-form-radios label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+  color: var(--text);
+  margin: 0;
+  cursor: pointer;
+}
+
+.edit-form-radios input[type="radio"] {
+  margin: 0;
+}
+
+.edit-form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  gap: 8px;
+}
+
+.edit-form-actions button {
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+}
+
+.btn-save {
+  background: var(--accent);
+  color: var(--score-text-selected);
+  flex: 1;
+}
+
+.btn-delete {
+  background: none;
+  color: #B44;
+  border: 1.5px solid #D88 !important;
+}
+
+.btn-cancel {
+  background: none;
+  color: var(--text-light);
+  border: 1.5px solid var(--border) !important;
+}
+
+.settings-section-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-top: 32px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--divider);
+}
+
+.settings-data-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings-data-buttons button {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-light);
+  cursor: pointer;
+  min-height: 44px;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-data-buttons button:active {
+  background: var(--score-bg);
+}
+
+/* === Responsive (larger phones, tablets) === */
+@media (min-width: 480px) {
+  .main {
+    padding: 24px;
+  }
+
+  .score-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 19px;
+  }
+}

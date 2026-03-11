@@ -1,0 +1,7 @@
+*.md
+*.xlsx
+*.toml
+.git
+.claude
+.assetsignore
+node_modules
