@@ -1,25 +1,25 @@
 // === Default Questions ===
 var DEFAULT_QUESTIONS = [
-  { id: 'daily-feel', category: 'Daily', question: 'How did I feel overall?', frequency: 'daily', scale: '1-5', order: 0 },
-  { id: 'daily-person', category: 'Daily', question: 'Was I the person I want to be?', frequency: 'daily', scale: '1-5', order: 1 },
-  { id: 'daily-eat', category: 'Daily', question: 'Did I eat well?', frequency: 'daily', scale: '1-5', order: 2 },
-  { id: 'daily-move', category: 'Daily', question: 'Did I move my body?', frequency: 'daily', scale: '1-5', order: 3 },
-  { id: 'daily-sleep', category: 'Daily', question: 'Sleep quality?', frequency: 'daily', scale: '1-5', order: 4 },
-  { id: 'daily-deep-work', category: 'Daily', question: 'Did I do deep work?', frequency: 'daily', scale: '1-5', order: 5 },
-  { id: 'daily-connect', category: 'Daily', question: 'Did I connect with people I care about?', frequency: 'daily', scale: '1-5', order: 6 },
-  { id: 'daily-learn', category: 'Daily', question: 'Did I learn or create something?', frequency: 'daily', scale: '1-5', order: 7 },
-  { id: 'daily-stress', category: 'Daily', question: 'How did I handle stress?', frequency: 'daily', scale: '1-5', order: 8 },
-  { id: 'daily-screens', category: 'Daily', question: 'Did I spend time away from screens?', frequency: 'daily', scale: '1-5', order: 9 },
-  { id: 'weekly-partner', category: 'Weekly', question: 'Did I love my partner well this week?', frequency: 'weekly', scale: '1-5', order: 0 },
-  { id: 'weekly-financial', category: 'Weekly', question: 'Was I wise financially?', frequency: 'weekly', scale: '1-5', order: 1 },
-  { id: 'weekly-entertainment', category: 'Weekly', question: 'Was my entertainment healthy?', frequency: 'weekly', scale: '1-5', order: 2 },
-  { id: 'weekly-goals', category: 'Weekly', question: 'Did I progress on my goals?', frequency: 'weekly', scale: '1-5', order: 3 },
-  { id: 'weekly-meaning', category: 'Weekly', question: 'Did I feel meaning?', frequency: 'weekly', scale: '1-5', order: 4 },
+  { id: 'daily-feel', category: 'Daily', question: 'How did I feel overall?', hint: 'Name it. Don\'t numb it.', frequency: 'daily', scale: '1-5', order: 0 },
+  { id: 'daily-person', category: 'Daily', question: 'Was I the person I want to be?', hint: 'Reliable. Honest. No envy, no resentment. Face the hard thing.', frequency: 'daily', scale: '1-5', order: 1 },
+  { id: 'daily-eat', category: 'Daily', question: 'Did I eat well?', hint: 'Portions first. Protein first. No eating at the screen.', frequency: 'daily', scale: '1-5', order: 2 },
+  { id: 'daily-move', category: 'Daily', question: 'Did I move my body?', hint: 'Dance, train, walk. The body that can\'t sit still.', frequency: 'daily', scale: '1-5', order: 3 },
+  { id: 'daily-sleep', category: 'Daily', question: 'Sleep quality?', hint: 'Bad sleep = 20% more eating. It starts here.', frequency: 'daily', scale: '1-5', order: 4 },
+  { id: 'daily-deep-work', category: 'Daily', question: 'Did I do deep work?', hint: 'One thing that moves the needle. Not busywork.', frequency: 'daily', scale: '1-5', order: 5 },
+  { id: 'daily-connect', category: 'Daily', question: 'Did I connect with people I care about?', hint: 'Liza, family, friends. Be present, not just around.', frequency: 'daily', scale: '1-5', order: 6 },
+  { id: 'daily-learn', category: 'Daily', question: 'Did I learn or create something?', hint: 'Something I can use, not just consume.', frequency: 'daily', scale: '1-5', order: 7 },
+  { id: 'daily-stress', category: 'Daily', question: 'How did I handle stress?', hint: 'Move, breathe, or talk. Not eat.', frequency: 'daily', scale: '1-5', order: 8 },
+  { id: 'daily-hard', category: 'Daily', question: 'Did I face something hard?', hint: 'The call, the conversation, the thing I keep postponing.', frequency: 'daily', scale: '1-5', order: 9 },
+  { id: 'daily-smoke', category: 'Daily', question: 'Did I smoke?', hint: 'Every session resets the cycle. Clean break.', frequency: 'daily', scale: '1-5', order: 10 },
+  { id: 'weekly-partner', category: 'Weekly', question: 'Did I love my partner well this week?', hint: 'Praise, recognition, presence. Not just coexisting.', frequency: 'weekly', scale: '1-5', order: 0 },
+  { id: 'weekly-financial', category: 'Weekly', question: 'Was I wise financially?', hint: 'Decisions that build safety, not just comfort.', frequency: 'weekly', scale: '1-5', order: 1 },
+  { id: 'weekly-entertainment', category: 'Weekly', question: 'Was my entertainment healthy?', hint: 'No late nights with games or movies. Rest instead.', frequency: 'weekly', scale: '1-5', order: 2 },
+  { id: 'weekly-goals', category: 'Weekly', question: 'Did I progress on my goals?', hint: 'Agency, products, learning. Check the quarterly plan.', frequency: 'weekly', scale: '1-5', order: 3 },
+  { id: 'weekly-meaning', category: 'Weekly', question: 'Did I feel meaning?', hint: 'Not happiness. Purpose. Was the week worth it?', frequency: 'weekly', scale: '1-5', order: 4 },
 ];
 
 // === State ===
 var currentDate = new Date();
-var showWeekly = false;
 var historyWeekOffset = 0;
 var editingQuestion = null; // question id being edited, or 'new-<category>' for new
 
@@ -37,6 +37,28 @@ function formatDateDisplay(d) {
 
 function isSunday(d) {
   return d.getDay() === 0;
+}
+
+function isWeekend(d) {
+  return d.getDay() === 0 || d.getDay() === 6;
+}
+
+// Find the most recent weekly answer for a question within the same Mon-Sun week
+function findWeeklyAnswer(d, questionId) {
+  var dayOfWeek = d.getDay();
+  var mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  var monday = new Date(d);
+  monday.setDate(d.getDate() + mondayOffset);
+
+  for (var i = 6; i >= 0; i--) {
+    var check = new Date(monday);
+    check.setDate(monday.getDate() + i);
+    var data = loadDay(formatDate(check));
+    if (data.answers[questionId] !== undefined) {
+      return data.answers[questionId];
+    }
+  }
+  return undefined;
 }
 
 function changeDate(offset) {
@@ -267,13 +289,6 @@ document.getElementById('view-score').addEventListener('click', function(e) {
     return;
   }
 
-  // Weekly toggle
-  if (e.target.id === 'toggle-weekly') {
-    showWeekly = !showWeekly;
-    render();
-    return;
-  }
-
   // Export CSV
   if (e.target.id === 'export-csv') {
     exportCSV();
@@ -320,7 +335,7 @@ function render() {
   document.getElementById('date-text').textContent = formatDateDisplay(currentDate);
   document.getElementById('date-picker').value = dateStr;
 
-  var sunday = isSunday(currentDate);
+  var weekend = isWeekend(currentDate);
   var container = document.getElementById('view-score');
   var questions = getQuestions();
   var dayData = loadDay(dateStr);
@@ -340,22 +355,31 @@ function render() {
 
   categories.forEach(function(cat) {
     var catQuestions = catMap[cat].sort(function(a, b) { return a.order - b.order; });
+    var allWeekly = catQuestions.every(function(q) { return q.frequency === 'weekly'; });
+    if (allWeekly && !weekend) return; // skip entire category on weekdays
     html += '<div class="category">';
     html += '<div class="category-title">' + escapeHtml(cat) + '</div>';
 
     catQuestions.forEach(function(q) {
       var isWeekly = q.frequency === 'weekly';
-      var hiddenClass = (isWeekly && !sunday && !showWeekly) ? ' hidden' : '';
+      if (isWeekly && !weekend) return; // skip weekly questions on weekdays
       var weeklyClass = isWeekly ? ' weekly' : '';
       var savedValue = dayData.answers[q.id];
+      // Pre-populate weekly questions from earlier in the week
+      if (isWeekly && savedValue === undefined) {
+        savedValue = findWeeklyAnswer(currentDate, q.id);
+      }
 
-      html += '<div class="question-card' + weeklyClass + hiddenClass + '" data-id="' + q.id + '">';
+      html += '<div class="question-card' + weeklyClass + '" data-id="' + q.id + '">';
 
       if (isWeekly) {
         html += '<div class="weekly-badge">Weekly</div>';
       }
 
       html += '<div class="question-text">' + escapeHtml(q.question) + '</div>';
+      if (q.hint) {
+        html += '<div class="question-hint">' + escapeHtml(q.hint) + '</div>';
+      }
 
       if (q.scale === '1-5') {
         html += '<div class="score-buttons">';
@@ -378,11 +402,6 @@ function render() {
     html += '</div>';
   });
 
-  // Weekly toggle
-  if (!sunday) {
-    var toggleText = showWeekly ? 'Hide weekly questions' : 'Show weekly questions';
-    html += '<div class="weekly-toggle"><button id="toggle-weekly">' + toggleText + '</button></div>';
-  }
 
   // Footer with export/import
   html += '<div class="footer">';
@@ -536,6 +555,9 @@ function renderSettings() {
         html += '<span class="settings-q-handle">&#9776;</span>';
         html += '<div class="settings-q-body">';
         html += '<div class="settings-q-text">' + escapeHtml(q.question) + '</div>';
+        if (q.hint) {
+          html += '<div class="settings-q-hint">' + escapeHtml(q.hint) + '</div>';
+        }
         html += '<div class="settings-q-meta">' + capitalize(q.frequency) + ' &middot; ' + q.scale + '</div>';
         html += '</div>';
         html += '<div class="settings-q-actions">';
@@ -575,6 +597,8 @@ function renderEditForm(q, categories) {
   var html = '<div class="edit-form">';
   html += '<label>Question text</label>';
   html += '<input type="text" class="edit-q-text" value="' + escapeHtml(q.question) + '" placeholder="Enter question...">';
+  html += '<label>Hint (optional)</label>';
+  html += '<input type="text" class="edit-q-hint" value="' + escapeHtml(q.hint || '') + '" placeholder="Subtitle shown below the question...">';
   html += '<label>Category</label>';
   html += '<select class="edit-q-category">';
   categories.forEach(function(cat) {
@@ -680,6 +704,7 @@ document.getElementById('view-settings').addEventListener('click', function(e) {
     var form = target.closest('.edit-form');
     var text = form.querySelector('.edit-q-text').value.trim();
     if (!text) { alert('Question text is required.'); return; }
+    var hint = form.querySelector('.edit-q-hint').value.trim();
     var category = form.querySelector('.edit-q-category').value;
     var freq = form.querySelector('input[name="edit-freq"]:checked').value;
     var scale = form.querySelector('input[name="edit-scale"]:checked').value;
@@ -695,21 +720,25 @@ document.getElementById('view-settings').addEventListener('click', function(e) {
           if (q.category !== category) {
             order = questions.filter(function(x) { return x.category === category; }).length;
           }
-          return { id: q.id, category: category, question: text, frequency: freq, scale: scale, order: order };
+          var updated = { id: q.id, category: category, question: text, frequency: freq, scale: scale, order: order };
+          if (hint) updated.hint = hint;
+          return updated;
         }
         return q;
       });
     } else {
       // New question
       var catCount = questions.filter(function(x) { return x.category === category; }).length;
-      questions.push({
+      var newQ = {
         id: generateId(text),
         category: category,
         question: text,
         frequency: freq,
         scale: scale,
         order: catCount
-      });
+      };
+      if (hint) newQ.hint = hint;
+      questions.push(newQ);
     }
 
     saveQuestions(questions);
@@ -762,6 +791,58 @@ function reorderQuestion(qid, direction) {
   saveQuestions(questions);
   renderSettings();
 }
+
+// === Migrations ===
+function runMigrations() {
+  var stored = localStorage.getItem('ds-questions');
+  if (!stored) return; // using defaults, no migration needed
+
+  var questions = JSON.parse(stored);
+  var changed = false;
+
+  // Migration 1: Replace daily-screens with daily-hard and daily-smoke
+  var hasScreens = questions.some(function(q) { return q.id === 'daily-screens'; });
+  var hasHard = questions.some(function(q) { return q.id === 'daily-hard'; });
+
+  if (hasScreens && !hasHard) {
+    questions = questions.filter(function(q) { return q.id !== 'daily-screens'; });
+    questions.push({ id: 'daily-hard', category: 'Daily', question: 'Did I face something hard?', hint: 'The call, the conversation, the thing I keep postponing.', frequency: 'daily', scale: '1-5', order: 9 });
+    questions.push({ id: 'daily-smoke', category: 'Daily', question: 'Did I smoke?', hint: 'Every session resets the cycle. Clean break.', frequency: 'daily', scale: '1-5', order: 10 });
+    changed = true;
+  }
+
+  // Migration 2: Add hints to all questions
+  var hintMap = {
+    'daily-feel': 'Name it. Don\'t numb it.',
+    'daily-person': 'Reliable. Honest. No envy, no resentment. Face the hard thing.',
+    'daily-eat': 'Portions first. Protein first. No eating at the screen.',
+    'daily-move': 'Dance, train, walk. The body that can\'t sit still.',
+    'daily-sleep': 'Bad sleep = 20% more eating. It starts here.',
+    'daily-deep-work': 'One thing that moves the needle. Not busywork.',
+    'daily-connect': 'Liza, family, friends. Be present, not just around.',
+    'daily-learn': 'Something I can use, not just consume.',
+    'daily-stress': 'Move, breathe, or talk. Not eat.',
+    'daily-hard': 'The call, the conversation, the thing I keep postponing.',
+    'daily-smoke': 'Every session resets the cycle. Clean break.',
+    'weekly-partner': 'Praise, recognition, presence. Not just coexisting.',
+    'weekly-financial': 'Decisions that build safety, not just comfort.',
+    'weekly-entertainment': 'No late nights with games or movies. Rest instead.',
+    'weekly-goals': 'Agency, products, learning. Check the quarterly plan.',
+    'weekly-meaning': 'Not happiness. Purpose. Was the week worth it?'
+  };
+
+  questions = questions.map(function(q) {
+    if (!q.hint && hintMap[q.id]) {
+      q.hint = hintMap[q.id];
+      changed = true;
+    }
+    return q;
+  });
+
+  if (changed) saveQuestions(questions);
+}
+
+runMigrations();
 
 // === Init ===
 render();

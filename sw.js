@@ -1,4 +1,4 @@
-var CACHE_VERSION = 'ds-v3';
+var CACHE_VERSION = 'ds-v4';
 var CACHE_FILES = [
   '/',
   '/index.html',
